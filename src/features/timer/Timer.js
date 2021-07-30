@@ -12,6 +12,8 @@ import { Countdown } from '../../Components/Countdown';
 import { RoundedButton } from '../../Components/RoundedButton';
 import { Timing } from './timing';
 import { useKeepAwake } from 'expo-keep-awake';
+import * as Speech from 'expo-speech';
+
 
 const DEFAULT_TIME = 0.1;
 export const Timer = ({ focusSubject, onTimerEnd ,clearSubject}) => {
@@ -25,7 +27,7 @@ export const Timer = ({ focusSubject, onTimerEnd ,clearSubject}) => {
   };
 
   const vibrate = () => {
-      Vibration.vibrate(5000);
+      Vibration.vibrate(3000);
     };
 
   const onEnd = () => {
@@ -41,6 +43,11 @@ export const Timer = ({ focusSubject, onTimerEnd ,clearSubject}) => {
     setProgress(1);
     setIsStarted(false);
   };
+
+  const speak = () => {
+    Speech.speak("Don't give up! Try Again.");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.countdown}>
@@ -52,7 +59,7 @@ export const Timer = ({ focusSubject, onTimerEnd ,clearSubject}) => {
         />
       </View>
       <View style={{ paddingTop: spacing.xl }}>
-        <Text style={styles.title}>Focusing on : {focusSubject}</Text>
+        {/* <Text style={styles.title}>Focusing on:{focusSubject}</Text> */}
         <Text style={styles.task}>{focusSubject}</Text>
       </View>
       <View style={{ paddingTop: spacing.md }}>
@@ -73,7 +80,7 @@ export const Timer = ({ focusSubject, onTimerEnd ,clearSubject}) => {
         )}
       </View>
       <View style = {styles.clearSubject}>
-        <Button title="CANCEL" onPress={() => clearSubject()} />
+        <Button title="CANCEL" onPress={() => {clearSubject();speak()}} />
       </View>
     </View>
   );

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, AsyncStorage } from 'react-native';
-
+import * as Speech from 'expo-speech';
 import { uuidv4 } from './src/utils/uuid';
 import { Timer } from './src/features/timer/Timer';
 import { Focus } from './src/features/focus/Focus';
@@ -10,6 +10,9 @@ import { FocusHistory } from './src/features/focus/FocusHistory';
 export default function App() {
   const [focusSubject, setFocusSubject] = useState(null);
   const [focusHistory, setFocusHistory] = useState(['']);
+  const speak = () => {
+    Speech.speak("Congratulations! You completed your task of    " + focusSubject);
+  };
 
   const saveFocusHistory = async () => {
     try {
@@ -52,6 +55,7 @@ export default function App() {
             setFocusSubject(null);
           }}
           onTimerEnd={() => {
+            speak();
             setFocusHistory([
               ...focusHistory,
               { subject: focusSubject, status: 1, key: uuidv4() },
